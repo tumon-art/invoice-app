@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -11,7 +12,7 @@ import {
 export default function Home() {
   return (
     <main className=" h-screen flex flex-col 
-      justify-center gap-5 text-center mx-auto">
+      justify-center gap-5 text-center md:mx-10">
 
       <h1 className="text-5xl font-bold"> Invoic App</h1>
 
@@ -28,11 +29,13 @@ export default function Home() {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className=" text-left font-medium">10/10/2024</TableCell>
-            <TableCell className="text-left">John Doe</TableCell>
-            <TableCell className="text-left">johndoe@mail.com</TableCell>
-            <TableCell className="text-center">Open</TableCell>
-            <TableCell className="text-left">$250.00</TableCell>
+            <TableCell className=" text-left font-bold p-4">10/10/2024</TableCell>
+            <TableCell className="text-left font-bold p-4">John Doe</TableCell>
+            <TableCell className="text-left p-4">johndoe@mail.com</TableCell>
+            <TableCell className="text-center p-4">
+              <Badge className="rounded-full">Badge</Badge>
+            </TableCell>
+            <TableCell className="text-left font-bold p-4">$250.00</TableCell>
           </TableRow>
         </TableBody>
       </Table>
