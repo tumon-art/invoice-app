@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { CirclePlus } from 'lucide-react';
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -18,9 +19,9 @@ export default function Home() {
 
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold"> Invoic App</h1>
-        <Button variant="ghost" className="inline-flex gap-2">
-          <CirclePlus className="h-4 w-4" />
-          Create Invoice </Button>
+        <Button variant="ghost" className="inline-flex gap-2" asChild>
+          <Link href="/invoices/new"><CirclePlus className="h-4 w-4" />Create Invoice </Link>
+        </Button>
       </div>
 
       <Table>
