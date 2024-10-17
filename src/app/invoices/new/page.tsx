@@ -2,8 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { db } from "../../../db";
+import { sql } from "drizzle-orm";
 
-export default function Home() {
+export default async function Home() {
+  const results = await db.execute(sql`SELECT current_database()`)
+
   return (
     <main className=" h-screen flex flex-col 
       justify-center gap-5 text-center md:mx-10">
@@ -11,6 +15,7 @@ export default function Home() {
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold"> Create Invoic App</h1>
       </div>
+      {JSON.stringify(results)}
 
       <form className="md:w-60 flex flex-col gap-3">
 
