@@ -1,3 +1,7 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Home() {
   return (
@@ -8,35 +12,35 @@ export default function Home() {
         <h1 className="text-3xl font-bold"> Create Invoic App</h1>
       </div>
 
-      <form>
+      <form className="md:w-60 flex flex-col gap-3">
 
-        <div>
-          <label>
+        <div className=" text-left">
+          <Label className="font-semibold text-sm block mb-2">
             Name
-            <input type="text" />
-          </label>
+            <Input type="text" />
+          </Label>
 
         </div>
-        <div>
-          <label>
+        <div className=" text-left">
+          <Label className="font-semibold text-sm block mb-2">
             Email
-            <input type="email" />
-          </label>
+            <Input type="email" />
+          </Label>
 
         </div>
-        <div>
-          <label>
+        <div className=" text-left">
+          <Label className="font-semibold text-sm block mb-2">
             Value
-            <input type="text" />
-          </label>
+            <Input type="text" />
+          </Label>
         </div>
-        <div>
-          <label>
+        <div className=" text-left">
+          <Label className="font-semibold text-sm block mb-2">
             Description
-            <textarea>
-            </textarea>
-          </label>
+            <Textarea></Textarea>
+          </Label>
         </div>
+        <Button className="font-semibold"> Submit </Button>
       </form>
     </main >
   );
