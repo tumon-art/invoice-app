@@ -34,7 +34,7 @@ export default async function Home() {
           <Label htmlFor="value" className="font-semibold text-sm block mb-2">
             Value
           </Label>
-          <Input id="value" name="value" type="text" />
+          <Input id="value" name="value" type="number" />
         </div>
         <div className=" text-left">
           <Label htmlFor="description" className="font-semibold text-sm block mb-2">

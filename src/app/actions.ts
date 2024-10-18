@@ -1,11 +1,19 @@
+'use server'
+
+import { db } from "@/db"
+import { Invoices } from "@/db/schema"
+import { redirect } from "next/navigation"
+
 export async function formAction(formData: FormData) {
-  'use server'
   const rawFormData = {
-    name: formData.get('name'),
-    email: formData.get('email'),
-    value: formData.get('value'),
-    descripton: formData.get('description')
+    value: parseFloat(String(formData.get('value'))),
+    description: String(formData.get('description')),
+    status: "open"
   }
 
-  console.log('formData', rawFormData)
+  const results = await db.insert(Invoices)
+    .values({ ...rawFormData, status: "open" })
+    .returning({ id: Invoices.id })
+
+  redirect(`/invoices/${results[0].id}`)
 }
