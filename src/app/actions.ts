@@ -15,5 +15,5 @@ export async function addInvoice(formData: FormData) {
     .values({ ...rawFormData, status: "open" })
     .returning({ id: Invoices.id })
 
-  // redirect(`/invoices/${results[0].id}`)
+  redirect(`/invoices/${results[0].id}`)
 }

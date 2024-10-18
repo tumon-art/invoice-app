@@ -9,10 +9,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { db } from "@/db";
+import { Invoices } from "@/db/schema";
 import { CirclePlus } from 'lucide-react';
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const invoices = await db.select().from(Invoices)
+
   return (
     <main className=" h-screen flex flex-col 
       justify-center gap-5 text-center md:mx-10">
@@ -28,23 +32,45 @@ export default function Home() {
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px] p-4">Date</TableHead>
-            <TableHead className="p-4">Customer</TableHead>
-            <TableHead className="p-4">Email</TableHead>
+            <TableHead className="w-[100px] p-2">Date</TableHead>
+            <TableHead className="p-2">Customer</TableHead>
+            <TableHead className="p-2">Email</TableHead>
             <TableHead className="text-center">Status</TableHead>
-            <TableHead className="p-4">Value</TableHead>
+            <TableHead className="p-2">Value</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className=" text-left font-bold p-4">10/10/2024</TableCell>
-            <TableCell className="text-left font-bold p-4">John Doe</TableCell>
-            <TableCell className="text-left p-4">johndoe@mail.com</TableCell>
-            <TableCell className="text-center p-4">
-              <Badge className="rounded-full">Badge</Badge>
-            </TableCell>
-            <TableCell className="text-left font-bold p-4">$250.00</TableCell>
-          </TableRow>
+          {invoices.map((invoice) => (
+            <TableRow key={invoice.id}>
+              <TableCell className=" text-left font-bold p-0">
+                <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
+                  {new Date(invoice.created_at).toLocaleDateString()}
+                </Link>
+              </TableCell>
+              <TableCell className="text-left font-bold p-0">
+                <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
+                  John Doe
+                </Link>
+              </TableCell>
+              <TableCell className="text-left p-0">
+                <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
+                  johndoe@mail.com
+                </Link>
+              </TableCell>
+              <TableCell className="text-center p-0">
+                <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
+                  <Badge className="rounded-full">
+                    {invoice.status}
+                  </Badge>
+                </Link>
+              </TableCell>
+              <TableCell className="text-left font-bold p-0">
+                <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
+                  ${invoice.value}
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </main >
