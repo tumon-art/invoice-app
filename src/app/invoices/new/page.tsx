@@ -1,12 +1,10 @@
+import { formAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { db } from "../../../db";
-import { sql } from "drizzle-orm";
 
 export default async function Home() {
-  const results = await db.execute(sql`SELECT current_database()`)
 
   return (
     <main className=" h-screen flex flex-col 
@@ -15,37 +13,36 @@ export default async function Home() {
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold"> Create Invoic App</h1>
       </div>
-      {JSON.stringify(results)}
 
-      <form className="md:w-60 flex flex-col gap-3">
+      <form action={formAction} className="md:w-60 flex flex-col gap-3">
 
         <div className=" text-left">
-          <Label className="font-semibold text-sm block mb-2">
+          <Label htmlFor="name" className="font-semibold text-sm block mb-2">
             Name
-            <Input type="text" />
           </Label>
+          <Input id="name" name="name" type="text" />
 
         </div>
         <div className=" text-left">
-          <Label className="font-semibold text-sm block mb-2">
+          <Label htmlFor="email" className="font-semibold text-sm block mb-2">
             Email
-            <Input type="email" />
           </Label>
+          <Input id="email" name="email" type="email" />
 
         </div>
         <div className=" text-left">
-          <Label className="font-semibold text-sm block mb-2">
+          <Label htmlFor="value" className="font-semibold text-sm block mb-2">
             Value
-            <Input type="text" />
           </Label>
+          <Input id="value" name="value" type="text" />
         </div>
         <div className=" text-left">
-          <Label className="font-semibold text-sm block mb-2">
+          <Label htmlFor="description" className="font-semibold text-sm block mb-2">
             Description
-            <Textarea></Textarea>
           </Label>
+          <Textarea id="description" name="description"></Textarea>
         </div>
-        <Button className="font-semibold"> Submit </Button>
+        <Button type="submit" className="font-semibold"> Submit </Button>
       </form>
     </main >
   );
