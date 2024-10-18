@@ -4,7 +4,7 @@ import { db } from "@/db"
 import { Invoices } from "@/db/schema"
 import { redirect } from "next/navigation"
 
-export async function formAction(formData: FormData) {
+export async function addInvoice(formData: FormData) {
   const rawFormData = {
     value: parseFloat(String(formData.get('value'))),
     description: String(formData.get('description')),
@@ -15,5 +15,5 @@ export async function formAction(formData: FormData) {
     .values({ ...rawFormData, status: "open" })
     .returning({ id: Invoices.id })
 
-  redirect(`/invoices/${results[0].id}`)
+  // redirect(`/invoices/${results[0].id}`)
 }

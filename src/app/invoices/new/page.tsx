@@ -1,10 +1,18 @@
-import { formAction } from "@/app/actions";
+'use client'
+import { addInvoice } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { LoaderCircle } from "lucide-react";
+import { useFormStatus } from "react-dom";
 
-export default async function Home() {
+function Submit() {
+  const status = useFormStatus();
+  return <Button disabled={status.pending} type="submit"
+    className="font-semibold"> {status.pending ? <LoaderCircle className="animate-spin" /> : "Submit"} </Button>
+}
+export default function Home() {
 
   return (
     <main className=" h-screen flex flex-col 
@@ -14,7 +22,7 @@ export default async function Home() {
         <h1 className="text-3xl font-bold"> Create Invoic App</h1>
       </div>
 
-      <form action={formAction} className="md:w-60 flex flex-col gap-3">
+      <form action={addInvoice} className="md:w-60 flex flex-col gap-3">
 
         <div className=" text-left">
           <Label htmlFor="name" className="font-semibold text-sm block mb-2">
@@ -42,7 +50,7 @@ export default async function Home() {
           </Label>
           <Textarea id="description" name="description"></Textarea>
         </div>
-        <Button type="submit" className="font-semibold"> Submit </Button>
+        <Submit />
       </form>
     </main >
   );
