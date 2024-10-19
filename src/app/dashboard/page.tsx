@@ -10,12 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { db } from "@/db";
-import { Invoices } from "@/db/schema";
+import { InvoicesSchema } from "@/db/schema";
 import { CirclePlus } from 'lucide-react';
 import Link from "next/link";
 
 export default async function Home() {
-  const invoices = await db.select().from(Invoices)
+  const invoices = await db.select().from(InvoicesSchema)
 
   return (
     <main className=" h-screen flex flex-col 

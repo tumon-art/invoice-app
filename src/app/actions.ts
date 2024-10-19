@@ -1,7 +1,6 @@
 'use server'
-
 import { db } from "@/db"
-import { Invoices } from "@/db/schema"
+import { InvoicesSchema } from "@/db/schema"
 import { redirect } from "next/navigation"
 
 export async function addInvoice(formData: FormData) {
@@ -11,9 +10,9 @@ export async function addInvoice(formData: FormData) {
     status: "open"
   }
 
-  const results = await db.insert(Invoices)
+  const results = await db.insert(InvoicesSchema)
     .values({ ...rawFormData, status: "open" })
-    .returning({ id: Invoices.id })
+    .returning({ id: InvoicesSchema.id })
 
   redirect(`/invoices/${results[0].id}`)
 }
