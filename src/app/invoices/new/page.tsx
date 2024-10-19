@@ -15,7 +15,7 @@ function Submit() {
 export default function Home() {
 
   return (
-    <main className=" h-screen flex flex-col 
+    <main className=" mt-20 flex flex-col 
       justify-center gap-5 text-center md:mx-10">
 
       <div className="flex justify-between">
