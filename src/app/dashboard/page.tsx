@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table"
 import { db } from "@/db";
 import { InvoicesSchema } from "@/db/schema";
+import { cn } from "@/lib/utils";
 import { CirclePlus } from 'lucide-react';
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default async function Home() {
   const invoices = await db.select().from(InvoicesSchema)
 
   return (
-    <main className=" h-screen flex flex-col 
+    <main className=" mt-20 flex flex-col 
       justify-center gap-5 text-center md:mx-10">
 
       <div className="flex justify-between">
@@ -59,7 +60,12 @@ export default async function Home() {
               </TableCell>
               <TableCell className="text-center p-0">
                 <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
-                  <Badge className="rounded-full">
+                  <Badge className={cn("rounded-full capitalize",
+                    invoice.status == 'open' && 'bg-cyan-500',
+                    invoice.status == 'paid' && 'bg-green-500',
+                    invoice.status == 'void' && 'bg-zinc-700',
+                    invoice.status == 'uncollectible' && 'bg-red-600',
+                  )}>
                     {invoice.status}
                   </Badge>
                 </Link>

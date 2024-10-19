@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { InvoicesSchema } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
 
 export default async function InvoicePage({ params }: { params: { id: string } }) {
   const invoiceId = parseFloat(params.id)
@@ -12,6 +13,8 @@ export default async function InvoicePage({ params }: { params: { id: string } }
     .where(eq(InvoicesSchema.id, invoiceId))
     .limit(1)
 
+  if (!getInvoice) notFound()
+
   return (
     <main className="flex flex-col 
       mt-20 gap-5 text-center md:mx-10">
@@ -19,7 +22,7 @@ export default async function InvoicePage({ params }: { params: { id: string } }
       <div className="flex gap-4 items-center">
         <h1 className="text-3xl font-bold"> Invoice {invoiceId} </h1>
         <span>
-          <Badge className={cn("rounded-full",
+          <Badge className={cn("rounded-full capitalize",
             getInvoice.status == 'open' && 'bg-cyan-500',
             getInvoice.status == 'paid' && 'bg-green-500',
             getInvoice.status == 'void' && 'bg-zinc-700',
