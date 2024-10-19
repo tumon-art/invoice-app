@@ -15,8 +15,8 @@ function Submit() {
 export default function Home() {
 
   return (
-    <main className=" mt-20 flex flex-col 
-      justify-center gap-5 text-center md:mx-10">
+    <main className=" mt-10 flex flex-col 
+      justify-center gap-5 text-center">
 
       <div className="flex justify-between">
         <h1 className="text-3xl font-bold"> Create Invoic App</h1>
