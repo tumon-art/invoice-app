@@ -5,6 +5,17 @@ import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { and, eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Edit2Icon, EditIcon } from "lucide-react";
+import { AVAILABLE_STATUSES } from "@/data/invoices";
+
 
 export default async function InvoicePage({ params }: { params: { id: string } }) {
   const { userId } = auth()
@@ -26,18 +37,37 @@ export default async function InvoicePage({ params }: { params: { id: string } }
     <main className="flex flex-col 
       mt-10 gap-5 text-center">
 
-      <div className="flex gap-4 items-center">
-        <h1 className="text-3xl font-bold"> Invoice {invoiceId} </h1>
-        <span>
-          <Badge className={cn("rounded-full capitalize",
-            getInvoice.status == 'open' && 'bg-cyan-500',
-            getInvoice.status == 'paid' && 'bg-green-500',
-            getInvoice.status == 'void' && 'bg-zinc-700',
-            getInvoice.status == 'uncollectible' && 'bg-red-600',
-          )}>
-            {getInvoice.status}
-          </Badge>
-        </span>
+      <div className="flex justify-between items-center">
+        <div className=" flex items-center gap-4">
+          <h1 className="text-3xl font-bold"> Invoice {invoiceId} </h1>
+          <span>
+            <Badge className={cn("rounded-full capitalize",
+              getInvoice.status == 'open' && 'bg-cyan-500',
+              getInvoice.status == 'paid' && 'bg-green-500',
+              getInvoice.status == 'void' && 'bg-zinc-700',
+              getInvoice.status == 'uncollectible' && 'bg-red-600',
+            )}>
+              {getInvoice.status}
+            </Badge>
+          </span>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
+            <EditIcon className="w-5 h-auto" /> <span> Change Status</span>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuSeparator />
+            {AVAILABLE_STATUSES.map((status) => (
+              <DropdownMenuItem key={status.id} className="capitalize ">
+                <form>
+                  <input type="hidden" name="id" value={invoiceId} />
+                  <input type="hidden" name="status" value={status.id} />
+                  <button className="hover:underline underline-offset-4"> {status.label} </button>
+                </form>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* TOTAL AMMOUNT  */}
