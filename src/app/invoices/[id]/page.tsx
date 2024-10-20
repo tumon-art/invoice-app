@@ -39,7 +39,10 @@ export default async function InvoicePage({ params }: { params: { id: string } }
       </h1>
 
       {/* Description  */}
-      <p className="text-left" > {getInvoice.description} </p>
+      <p className="text-left bg-cyan-600 rounded-md ring-2 
+        ring-cyan-400 p-4 text-white w-60 whitespace-pre-line" >
+        {getInvoice.description}
+      </p>
 
       <h3 className="mt-4 text-left text-lg font-semibold">
         Billing Details
