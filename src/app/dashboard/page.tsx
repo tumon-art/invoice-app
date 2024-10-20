@@ -12,11 +12,20 @@ import {
 import { db } from "@/db";
 import { InvoicesSchema } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
+import { eq } from "drizzle-orm";
 import { CirclePlus } from 'lucide-react';
 import Link from "next/link";
 
 export default async function Home() {
-  const invoices = await db.select().from(InvoicesSchema)
+  const { userId } = auth()
+
+  if (!userId) return
+
+
+  const invoices = await db.select()
+    .from(InvoicesSchema)
+    .where(eq(InvoicesSchema.userId, userId))
 
   return (
     <main className=" mt-10 flex flex-col 
