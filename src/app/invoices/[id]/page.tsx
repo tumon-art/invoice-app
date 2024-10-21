@@ -13,8 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Edit2Icon, EditIcon } from "lucide-react";
+import { ArrowDownNarrowWide, ChevronDown, Edit2Icon, EditIcon } from "lucide-react";
 import { AVAILABLE_STATUSES } from "@/data/invoices";
+import { updateStatus } from "@/app/actions";
 
 
 export default async function InvoicePage({ params }: { params: { id: string } }) {
@@ -53,13 +54,13 @@ export default async function InvoicePage({ params }: { params: { id: string } }
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
-            <EditIcon className="w-5 h-auto" /> <span> Change Status</span>
+            <ChevronDown className="w-5 h-auto" /> <span> Change Status</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuSeparator />
             {AVAILABLE_STATUSES.map((status) => (
               <DropdownMenuItem key={status.id} className="capitalize ">
-                <form>
+                <form action={updateStatus}>
                   <input type="hidden" name="id" value={invoiceId} />
                   <input type="hidden" name="status" value={status.id} />
                   <button className="hover:underline underline-offset-4"> {status.label} </button>

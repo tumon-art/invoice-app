@@ -2,7 +2,10 @@
 import { db } from "@/db"
 import { InvoicesSchema, Status } from "@/db/schema"
 import { auth } from "@clerk/nextjs/server"
+import { and, eq } from "drizzle-orm"
+import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { type } from "os"
 
 export async function addInvoice(formData: FormData) {
   const { userId } = auth();
@@ -27,8 +30,15 @@ export async function updateStatus(formData: FormData) {
   if (!userId) return;
 
 
-  const rawFormData = {
-    id: String(formData.get('value')),
-    status: formData.get('status') as Status,
-  }
+  const id = String(formData.get('id'))
+  const status = formData.get('status') as Status
+
+  await db.update(InvoicesSchema)
+    .set({ status })
+    .where(and(
+      eq(InvoicesSchema.id, Number(id)),
+      eq(InvoicesSchema.userId, userId),
+    ))
+
+  revalidatePath(`/invoices/${id}`, 'page')
 }
