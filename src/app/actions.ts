@@ -5,7 +5,6 @@ import { auth } from "@clerk/nextjs/server"
 import { and, eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { type } from "os"
 
 export async function addInvoice(formData: FormData) {
   const { userId } = auth();
