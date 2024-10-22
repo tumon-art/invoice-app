@@ -41,3 +41,18 @@ export async function updateStatus(formData: FormData) {
 
   revalidatePath(`/invoices/${id}`, 'page')
 }
+
+
+export async function deleteInvoiceAction(formData: FormData) {
+  const { userId } = auth();
+  if (!userId) return;
+
+  const id = String(formData.get('id'))
+
+  await db.delete(InvoicesSchema)
+    .where(and(
+      eq(InvoicesSchema.id, Number(id)),
+      eq(InvoicesSchema.userId, userId),
+    ))
+  redirect('/dashboard')
+}

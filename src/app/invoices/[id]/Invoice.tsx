@@ -9,9 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Ellipsis, Trash2 } from "lucide-react";
 import { AVAILABLE_STATUSES } from "@/data/invoices";
-import { updateStatus } from "@/app/actions";
+import { deleteInvoiceAction, updateStatus } from "@/app/actions";
 import { useOptimistic } from "react";
 
 
@@ -51,23 +51,46 @@ export default function Invoice({ invoice }: InvoiceProps) {
             </Badge>
           </span>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
-            <ChevronDown className="w-5 h-auto" /> <span> Change Status</span>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuSeparator />
-            {AVAILABLE_STATUSES.map((status) => (
-              <DropdownMenuItem key={status.id} className="capitalize ">
-                <form action={handleUpdateStatus}>
+        <div className=" flex gap-5">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
+              <ChevronDown className="w-5 h-auto" /> <span> Change Status</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSeparator />
+              {AVAILABLE_STATUSES.map((status) => (
+                <DropdownMenuItem key={status.id} className="capitalize ">
+                  <form action={handleUpdateStatus}>
+                    <input type="hidden" name="id" value={invoice.id} />
+                    <input type="hidden" name="status" value={status.id} />
+                    <button className="hover:underline underline-offset-4"> {status.label} </button>
+                  </form>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+
+          <DropdownMenu>
+            <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
+              <span className="sr-only"> More Options </span>
+              <Ellipsis className="w-5 h-auto" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <form action={deleteInvoiceAction}>
                   <input type="hidden" name="id" value={invoice.id} />
-                  <input type="hidden" name="status" value={status.id} />
-                  <button className="hover:underline underline-offset-4"> {status.label} </button>
+                  <button className="hover:underline flex gap-2 underline-offset-4">
+                    <Trash2 className="w-4 h-auto" />
+                    Delete Status
+                  </button>
                 </form>
               </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+        </div>
       </div>
 
       {/* TOTAL AMMOUNT  */}
