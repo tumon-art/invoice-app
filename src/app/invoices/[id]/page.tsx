@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 import Invoice from "./Invoice";
 
 
-export default async function InvoicePage({ params }: { params: { id: string } }) {
+export default async function InvoicePage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { userId } = auth()
   if (!userId) return
 
