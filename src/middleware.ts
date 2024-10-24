@@ -2,6 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
 const isPublic = createRouteMatcher([
   '/',
+  '/invoices/(.*)/payment'
 ])
 // '/dashboard',
 // '/invoices/:id',
