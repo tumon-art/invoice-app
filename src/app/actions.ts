@@ -5,6 +5,10 @@ import { auth } from "@clerk/nextjs/server"
 import { and, eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { Stripe } from "stripe"
+
+
+const stripe = new Stripe(String(process.env.STRIPE_API_KEY))
 
 export async function addInvoice(formData: FormData) {
   const { userId } = auth();
