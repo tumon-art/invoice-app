@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { db } from "@/db";
-import { InvoicesSchema } from "@/db/schema";
+import { Customers, InvoicesSchema } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
@@ -23,9 +23,14 @@ export default async function Home() {
   if (!userId) return
 
 
-  const invoices = await db.select()
+  const results = await db.select()
     .from(InvoicesSchema)
+    .innerJoin(Customers, eq(InvoicesSchema.id, Customers.id))
     .where(eq(InvoicesSchema.userId, userId))
+
+  const invoices = results.map(({ invoices, customers }) => (
+    { ...invoices, customer: customers }
+  ))
 
   return (
     <main className=" mt-10 flex flex-col 
@@ -59,12 +64,12 @@ export default async function Home() {
               </TableCell>
               <TableCell className="text-left font-bold p-0">
                 <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
-                  John Doe
+                  {invoice.customer.name}
                 </Link>
               </TableCell>
               <TableCell className="text-left p-0">
                 <Link href={`/invoices/${invoice.id}`} className="block px-2 py-4">
-                  johndoe@mail.com
+                  {invoice.customer.email}
                 </Link>
               </TableCell>
               <TableCell className="text-center p-0">

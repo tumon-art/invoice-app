@@ -1,6 +1,6 @@
 'use client'
 import { Badge } from "@/components/ui/badge";
-import { InvoicesSchema } from "@/db/schema";
+import { Customers, InvoicesSchema } from "@/db/schema";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -26,7 +26,9 @@ import { Button } from "@/components/ui/button";
 
 
 interface InvoiceProps {
-  invoice: typeof InvoicesSchema.$inferSelect
+  invoice: typeof InvoicesSchema.$inferSelect & {
+    customer: typeof Customers.$inferSelect
+  }
 }
 export default function Invoice({ invoice }: InvoiceProps) {
 
@@ -148,11 +150,11 @@ export default function Invoice({ invoice }: InvoiceProps) {
         </li>
 
         <li className=" flex gap-6">
-          <p className=" w-28"> Billng Name </p>
+          <p className=" w-28"> Billng Name </p> <span> {invoice.customer.name} </span>
         </li>
 
         <li className=" flex gap-6">
-          <p className=" w-28"> Billng Name </p>
+          <p className=" w-28"> Billng Email </p> <span> {invoice.customer.email} </span>
         </li>
       </ul>
     </main >

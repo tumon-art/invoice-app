@@ -1,6 +1,6 @@
 'use server'
 import { db } from "@/db"
-import { InvoicesSchema, Status } from "@/db/schema"
+import { Customers, InvoicesSchema, Status } from "@/db/schema"
 import { auth } from "@clerk/nextjs/server"
 import { and, eq } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
@@ -11,14 +11,19 @@ export async function addInvoice(formData: FormData) {
   if (!userId) return;
 
   const rawFormData = {
+    name: String(formData.get('name')),
+    email: String(formData.get('email')),
     value: parseFloat(String(formData.get('value'))),
     description: String(formData.get('description')),
     status: "open"
   }
 
+  const [customers] = await db.insert(Customers)
+    .values({ ...rawFormData, userId: userId })
+    .returning({ id: Customers.id })
 
   const results = await db.insert(InvoicesSchema)
-    .values({ ...rawFormData, status: "open", userId: userId })
+    .values({ ...rawFormData, status: "open", customerId: customers.id, userId: userId })
     .returning({ id: InvoicesSchema.id })
 
   redirect(`/invoices/${results[0].id}`)
