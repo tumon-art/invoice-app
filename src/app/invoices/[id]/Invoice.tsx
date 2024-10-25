@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronDown, Ellipsis, Trash2 } from "lucide-react";
+import { ChevronDown, CreditCard, Ellipsis, Trash2 } from "lucide-react";
 import { AVAILABLE_STATUSES } from "@/data/invoices";
 import { deleteInvoiceAction, updateStatus } from "@/app/actions";
 import { useOptimistic } from "react";
@@ -23,6 +23,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 interface InvoiceProps {
@@ -99,6 +100,14 @@ export default function Invoice({ invoice }: InvoiceProps) {
                       Delete Status
                     </button>
                   </DialogTrigger>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>
+                  <Link href={`/invoices/${invoice.id}/payment`}
+                    className="hover:underline flex gap-2 underline-offset-4">
+                    <CreditCard className="w-4 h-auto" />
+                    Payment
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
