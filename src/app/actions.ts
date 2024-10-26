@@ -7,7 +7,6 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 // import { Stripe } from "stripe"
 
-
 // const stripe = new Stripe(String(process.env.STRIPE_API_KEY))
 
 export async function addInvoice(formData: FormData) {
@@ -51,7 +50,6 @@ export async function updateStatus(formData: FormData) {
   revalidatePath(`/invoices/${id}`, 'page')
 }
 
-
 export async function deleteInvoiceAction(formData: FormData) {
   const { userId } = auth();
   if (!userId) return;
@@ -65,3 +63,16 @@ export async function deleteInvoiceAction(formData: FormData) {
     ))
   redirect('/dashboard')
 }
+
+export const createPayment = async (formData: FormData) => {
+  const id = Number(formData.get("id"))
+
+  const [results] = await db.select({
+    status: InvoicesSchema.status,
+    value: InvoicesSchema.value
+  })
+    .from(InvoicesSchema)
+    .where(eq(InvoicesSchema.id, id))
+    .limit(1)
+}
+

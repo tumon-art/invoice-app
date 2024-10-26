@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Check, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { createPayment } from "@/app/actions";
 
 export default async function payment(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -73,7 +74,8 @@ export default async function payment(props: { params: Promise<{ id: string }> }
         <div className=" text-left">
           <h2 className="text-xl font-bold mb-4"> Manage Invoice </h2>
           {invoices.status === 'open' && (
-            <form>
+            <form action={createPayment}>
+              <input type="hidden" name="id" value={invoices.id} />
               <Button className="flex font-semibold gap-2 bg-green-600">
                 <CreditCard className="h-auto w-5" />
                 Pay Invoice
