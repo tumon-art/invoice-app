@@ -8,7 +8,6 @@ import { Check, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createPayment, updateStatus } from "@/app/actions";
 import { Stripe } from "stripe"
-import { isError } from "util";
 
 interface PaymentProps {
 
