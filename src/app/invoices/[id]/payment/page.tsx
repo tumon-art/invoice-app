@@ -7,27 +7,44 @@ import { notFound } from "next/navigation";
 import { Check, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createPayment, updateStatus } from "@/app/actions";
+import { Stripe } from "stripe"
+import { isError } from "util";
 
 interface PaymentProps {
 
   params: { id: string }
-  searchParams: { status: string }
+  searchParams: {
+    status: string;
+    session_id: string;
+  }
 }
+
+
+const stripe = new Stripe(String(process.env.STRIPE_API_KEY))
+
 export default async function payment({ params, searchParams }: PaymentProps) {
 
   const invoiceId = parseFloat(params.id)
 
-  const isSuccess = searchParams.status === "success"
-  // const isCanceled = searchParams.status === "canceled"
+
+  const session_id = searchParams.session_id
+  const isSuccess = session_id && searchParams.status === "success"
+  const isCanceled = searchParams.status === "canceled"
+  let isError = (isSuccess && !session_id)
 
   if (isNaN(invoiceId)) throw new Error("Invalid Invoice ID")
 
   if (isSuccess) {
-    const formData = new FormData()
-    formData.append('id', String(invoiceId))
-    formData.append('status', "paid")
+    const { payment_status } = await stripe.checkout.sessions.retrieve(String(session_id))
 
-    await updateStatus(formData)
+    if (payment_status !== "paid") {
+      isError = true
+    } else {
+      const formData = new FormData()
+      formData.append('id', String(invoiceId))
+      formData.append('status', "paid")
+      await updateStatus(formData)
+    }
   }
 
   const [getInvoice] = await db.select({
@@ -56,7 +73,15 @@ export default async function payment({ params, searchParams }: PaymentProps) {
   return (
     <main className="flex flex-col 
       mt-10 gap-5 text-center">
+      {isError && (
+        <p className=" bg-red-100 text-red-800 rounded-lg py-2 mb-2 text-sm">
+          Something went wrong, please try again. </p>
+      )}
 
+      {isCanceled && (
+        <p className=" bg-yellow-100 text-red-800 rounded-lg py-2 mb-2 text-sm">
+          Payment was Canceled, please try again. </p>
+      )}
       <section className="grid grid-cols-2">
         <div>
           <div className="flex justify-between items-center">
@@ -76,7 +101,7 @@ export default async function payment({ params, searchParams }: PaymentProps) {
           </div>
 
           {/* TOTAL AMMOUNT  */}
-          <h1 className=" text-left text-3xl">
+          <h1 className=" text-left text-3xl my-5">
             $ {invoices.value.toFixed(2)}
           </h1>
 
