@@ -6,12 +6,29 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Check, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { createPayment } from "@/app/actions";
+import { createPayment, updateStatus } from "@/app/actions";
 
-export default async function payment(props: { params: Promise<{ id: string }> }) {
-  const params = await props.params;
+interface PaymentProps {
+
+  params: { id: string }
+  searchParams: { status: string }
+}
+export default async function payment({ params, searchParams }: PaymentProps) {
 
   const invoiceId = parseFloat(params.id)
+
+  const isSuccess = searchParams.status === "success"
+  // const isCanceled = searchParams.status === "canceled"
+
+  if (isNaN(invoiceId)) throw new Error("Invalid Invoice ID")
+
+  if (isSuccess) {
+    const formData = new FormData()
+    formData.append('id', String(invoiceId))
+    formData.append('status', "paid")
+
+    await updateStatus(formData)
+  }
 
   const [getInvoice] = await db.select({
     id: InvoicesSchema.id,
