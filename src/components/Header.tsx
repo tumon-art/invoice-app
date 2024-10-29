@@ -1,5 +1,6 @@
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 const Header = () => {
   return (
@@ -12,7 +13,9 @@ const Header = () => {
       </Link>
       <div>
         <SignedOut>
-          <SignInButton />
+          <Button className=" text-lg font-semibold" asChild>
+            <SignInButton />
+          </Button>
         </SignedOut>
         <SignedIn>
           <UserButton />

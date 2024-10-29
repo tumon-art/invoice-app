@@ -18,7 +18,6 @@ interface PaymentProps {
   }
 }
 
-
 const stripe = new Stripe(String(process.env.STRIPE_API_KEY))
 
 export default async function payment({ params, searchParams }: PaymentProps) {
