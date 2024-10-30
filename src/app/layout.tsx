@@ -33,7 +33,7 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} 
-          md:mx-10 antialiased min-h-screen grid grid-rows-[auto_1fr_auto]`}
+          mx-2 md:mx-10 antialiased min-h-screen grid grid-rows-[auto_1fr_auto]`}
         >
           <Header />
           {children}

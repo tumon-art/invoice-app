@@ -4,7 +4,7 @@ const Footer = () => {
       <p className="text-sm text-center">
         Invoice App &copy; {new Date().getFullYear()}
       </p>
-      <p className="text-sm">
+      <p className="text-sm text-center">
         Created by Tumon with Nextjs, Supabse, and Clerk
       </p>
     </footer>
