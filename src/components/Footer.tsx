@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className="flex mt-10 justify-between items-center py-5">
-      <p className="text-sm">
+    <footer className="md:flex mt-10 justify-between items-center py-1 md:py-5">
+      <p className="text-sm text-center">
         Invoice App &copy; {new Date().getFullYear()}
       </p>
       <p className="text-sm">
