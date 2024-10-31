@@ -50,7 +50,7 @@ export default function Invoice({ invoice }: InvoiceProps) {
     <main className="flex flex-col 
       mt-10 gap-5 text-center">
 
-      <div className="flex justify-between items-center">
+      <div className="md:flex justify-between items-center">
         <div className=" flex items-center gap-4">
           <h1 className="text-3xl font-bold"> Invoice {invoice.id} </h1>
           <span>
@@ -64,7 +64,7 @@ export default function Invoice({ invoice }: InvoiceProps) {
             </Badge>
           </span>
         </div>
-        <div className=" flex gap-5">
+        <div className=" mt-5 md:mt-0 flex gap-5">
           <DropdownMenu>
             <DropdownMenuTrigger className="font-semibold flex gap-1 items-center">
               <ChevronDown className="w-5 h-auto" /> <span> Change Status</span>
