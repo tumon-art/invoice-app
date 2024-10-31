@@ -33,11 +33,11 @@ export default async function Home() {
   ))
 
   return (
-    <main className=" mt-10 flex flex-col 
-      justify-center gap-5 text-center ">
+    <main className=" overflow-auto mt-10 flex flex-col 
+       gap-5 text-center ">
 
       <div className="flex justify-between">
-        <h1 className="text-3xl font-bold"> Invoic App</h1>
+        <h1 className="text-2xl md:text-3xl font-bold"> Invoic App</h1>
         <Button variant="ghost" className="inline-flex gap-2" asChild>
           <Link href="/invoices/new"><CirclePlus className="h-4 w-4" />Create Invoice </Link>
         </Button>
