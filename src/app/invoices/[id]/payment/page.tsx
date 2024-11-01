@@ -80,7 +80,7 @@ export default async function payment({ params, searchParams }: PaymentProps) {
         <p className=" bg-yellow-100 text-red-800 rounded-lg py-2 mb-2 text-sm">
           Payment was Canceled, please try again. </p>
       )}
-      <section className="grid grid-cols-2">
+      <section className="md:grid grid-cols-2">
         <div>
           <div className="flex justify-between items-center">
             <div className=" flex items-center gap-4">
@@ -111,7 +111,7 @@ export default async function payment({ params, searchParams }: PaymentProps) {
         </div>
 
         {/* PAYMENT FORM */}
-        <div className=" text-left">
+        <div className=" text-left mt-5 md:mt-0">
           <h2 className="text-xl font-bold mb-4"> Manage Invoice </h2>
           {invoices.status === 'open' && (
             <form action={createPayment}>
